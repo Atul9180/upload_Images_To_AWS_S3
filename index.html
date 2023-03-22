@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Image</title>
+</head>
+
+<body>
+    <h1>Upload Image</h1>
+    <form>
+        <input type="file" id="image" name="image" accept="image/*">
+        <button type="button" onclick="uploadImage()">Upload</button>
+    </form>
+    <div id="result" style="max-width:100px;max-height: 100px;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function uploadImage() {
+            const input = document.getElementById('image');
+            const file = input.files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+            axios.post('/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(function (response) {
+                const url = response.data;
+                const result = document.getElementById('result');
+                result.innerHTML = `<img src="${url}"/>`;
+            }).catch(function (error) {
+                console.error(error);
+            });
+        }
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Image to Node.js Server</title>
+</head>
+
+<body>
+    <h1>Upload Image</h1>
+    <form>
+        <input type="file" id="fileInput" accept="image/*">
+        <button type="button" onclick="uploadImage()">Upload</button>
+    </form>
+    <hr>
+    <div id="result"></div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        function uploadImage() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a file to upload');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('image', file);
+            axios.post('/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then(response => {
+                    const imageUrl = response.data.url;
+                    alert('Image uploaded successfully!\n' + imageUrl);
+                    const result = document.getElementById('result');
+                    result.innerHTML = `<img src="${imageUrl}"/>`;
+
+                })
+                .catch(error => {
+                    alert('Error uploading image:\n' + error.message);
+                });
+        }
+    </script>
+</body>
+
+</html> -->
