@@ -12,8 +12,8 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 
 const s3 = new AWS.S3({
-    accessKeyId: 'AKIAWDTS4F6LF77FDBVW',
-    secretAccessKey: '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'
+    accessKeyId: 'process.env.ACCESSID',
+    secretAccessKey: 'process.env.SECRETACCESSID'
 });
 
 
@@ -40,7 +40,7 @@ app.post('/upload', (req, res) => {
         const image = req.file;
         const key = `images/${Date.now()}_${image.originalname}`;
         const params = {
-            Bucket: 'groupchat2023',
+            Bucket: 'process.env.BUCKET',
             Key: key,
             Body: image.buffer,
             ACL: 'public-read'
